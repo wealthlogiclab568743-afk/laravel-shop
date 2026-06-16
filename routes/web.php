@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -19,3 +20,6 @@ Route::get('/dashboard', function () {
     } 
     return view('dashboard.customer');
 })->middleware('auth');
+
+Route::get ('/products/{product}', [ProductController::class,'show']);
+Route::get ('/products/{product}/buy', [ProductController::class,'buy'])->middleware('auth');

@@ -12,6 +12,8 @@
     @auth
         Welcome, {{ auth()->user()->name }}
         &nbsp;|&nbsp;
+        <a href="/dashboard">Dashboard</a>
+        &nbsp;|&nbsp;
         <form method="POST" action="/logout" style="display:inline">
             @csrf
             <button type="submit">Logout</button>
@@ -49,6 +51,7 @@
                     <p>Price: ${{ $product->price }}</p>
                     <p>Stock: {{ $product->stock }}</p>
                     <p>Category: {{ $product->category->name }}</p>
+                    <a href="/products/{{ $product->id }}">View Details</a>
                 </td>
             @endforeach
         </tr>
