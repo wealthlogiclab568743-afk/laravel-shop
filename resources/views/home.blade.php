@@ -28,6 +28,18 @@
 
 {{-- Products Grid --}}
 <table width="100%">
+        <tr>
+            <td width="15%" valign="top">
+                <p><strong>Categories</strong></p>
+                <p><a href="/">All</a></p>
+                @foreach($categories as $category)
+                    <p><a href="/?category={{ $category->id }}">{{ $category->name }}</a></p>
+                @endforeach
+
+            </td>
+            <td width="1%">|</td>
+            <td valign="top">
+                <table width="100%">
     @foreach($products->chunk(4) as $row)
         <tr>
             @foreach($row as $product)
@@ -36,10 +48,7 @@
                     <p>{{ $product->description }}</p>
                     <p>Price: ${{ $product->price }}</p>
                     <p>Stock: {{ $product->stock }}</p>
-                    <form method="POST" action="/cart/add/{{ $product->id }}">
-                        @csrf
-                        <button type="submit">Add to Cart</button>
-                    </form>
+                    <p>Category: {{ $product->category->name }}</p>
                 </td>
             @endforeach
         </tr>
