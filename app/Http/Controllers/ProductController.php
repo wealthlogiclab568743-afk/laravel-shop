@@ -116,8 +116,10 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
-    public function buy(Request $request, Product $product)
-    {
+    public function buy(Request $request, Product $product) {
+        if (auth()->user()->role === 'seller') {
+            return back()->withErrors(['role' => 'Sellers cannot buy products']);
+        }
         $request->validate([
             'quantity' => 'required|integer|min:1|max:' . $product->stock,
         ]);
@@ -126,7 +128,7 @@ class ProductController extends Controller
         $total = $product->price * $request->quantity;
 
         if ($customer->balance < $total) {
-            return back()->withErrors(['balance' => 'Insufficient balance']);
+            return back()->withErrors(['quantity' => 'Insufficient balance. You have $'.$customer->balance.' but need $'.$total]);
         }
 
         if ($product->stock < $request->quantity) {

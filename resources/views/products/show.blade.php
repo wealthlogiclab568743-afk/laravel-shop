@@ -24,37 +24,36 @@
 
 @if($product->stock > 0)
     @auth
-
-    {{-- Show customer balance --}}
-        <p>Your Balance: ${{ auth()->user()->balance }}</p> 
-
-        <form method="POST" action="/products/{{ $product->id }}/buy">
+        @if(auth()->user()->role === 'seller')
+            <p>Sellers cannot buy products.</p>
+        @else
+            <p>Your Balance: ${{ auth()->user()->balance }}</p> 
+        @if ($errors->any())
+            <p>{{ $errors->first() }}</p>
+        @endif
+        <form method="POST" action="/products/{{ $product->id }}/buy" id="buyform">
             @csrf
-            @if($errors->any())
-                <p>{{ $errors->first() }}</p>
-            @endif
             Quantity: <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}">
             <br><br>
-            <button type="submit">Buy Now</button>
+            <button type="button" onclick="confirmBuy()">Buy Now</button>
         </form>
 
         <script>
             document.getElementById('quantity').addEventListener('input', function() {
                 let price = {{ $product->price }};
-                let quantity = parseInt(this.value);
+                let quantity = this.value;
                 document.getElementById('total').innerText = 'Total: $' + (quantity * price).toFixed(2);
             });
 
             function confirmBuy() {
                 let quantity = document.getElementById('quantity').value;
                 let total = document.getElementById('total').innerText
-                let confirm = window.confirm('Are you sure you want to buy ' + quantity + ' item(s) for a total of $' + total.toFixed(2) + '?');
-                if (confirm){
+                if (window.confirm('Buy ' + quantity + ' item(s) for a total of $' + total.toFixed(2) + '?')){
                     document.getElementById('buyForm').submit();
                 }
-            }
+        }
         </script>
-
+        @endif
     @else
         <p>You must <a href="/signin">Sign In</a> to buy this product.</p>
     @endauth

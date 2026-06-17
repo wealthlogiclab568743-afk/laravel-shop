@@ -61,9 +61,11 @@
                                 <p>Price: ${{ $product->price }}</p>
                                 <p>Stock: {{ $product->stock }}</p>
                                 <p>Category: {{ $product->category->name }}</p>
+                                @if (!auth()->check() || auth()->user()->role === 'customer')
                                 <a href="/products/{{ $product->id }}">
                                     <button>Buy</button>
                                 </a>
+                                @endif
                             </td>
                         @endforeach
                     </tr>

@@ -23,10 +23,19 @@ class AuthController extends Controller
             'role' => 'required|in:seller,customer',
         ]);
 
+        $exists = User::where('name', $request->name)->where('role', $request->role)->exists();
+        
+        if($exists){
+            return back()->withErrors([
+                'name' => 'A'.$request->role.' with that name already exists.',
+            ]);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'balance' => 0.00,
         ]);
 
         Auth::login($user);
