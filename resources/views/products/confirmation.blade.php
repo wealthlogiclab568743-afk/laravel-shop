@@ -11,7 +11,8 @@
     <hr>
     <p>Product: {{ $product->name}}</p>
     <p>Quantity: {{ $order->items->first()->quantity }}</p>
-    <p>Total: ${{ $order->total}}</p>
+    <p>Total paid: ${{ $order->total}}</p>
+    <p>Remaining Balance: ${{ auth()->user()->balance }}</p>
     <hr>
     <a href="/">Back to Home</a>
 </body>

@@ -118,14 +118,23 @@ class ProductController extends Controller
             'quantity' => 'required|integer|min:1|max:' . $product->stock,
         ]);
 
+        $customer = auth()->user();
+        $total = $product->price * $request->quantity;
+
+        if ($customer->balance < $total) {
+            return back()->withErrors(['balance' => 'Insufficient balance']);
+        }
+
         if ($product->stock < $request->quantity) {
             return back()->withErrors(['quantity' => 'Not enough stock']);
         }
 
-        // Create an order
+        $customer->decrement('balance', $total);
+        $product->seller->increment('balance', $total);
+
         $order = Order::create([
-            'customer_id' => auth()->id(),
-            'total' => $product->price * $request->quantity,
+            'customer_id' => $customer->id,
+            'total' => $total,
         ]);
 
         $order->items()->create([

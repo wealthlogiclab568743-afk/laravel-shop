@@ -14,10 +14,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 User::insert([
-    ['name' => 'seller1', 'password' => Hash::make('password'), 'role' => 'seller', 'created_at' => now(), 'updated_at' => now()],
-    ['name' => 'seller2', 'password' => Hash::make('password'), 'role' => 'seller', 'created_at' => now(), 'updated_at' => now()],
-    ['name' => 'customer1', 'password' => Hash::make('password'), 'role' => 'customer', 'created_at' => now(), 'updated_at' => now()],
-    ['name' => 'customer2', 'password' => Hash::make('password'), 'role' => 'customer', 'created_at' => now(), 'updated_at' => now()],
+    ['name' => 'seller1', 'password' => Hash::make('password'), 'role' => 'seller', 'balance' => 0.00, 'created_at' => now(), 'updated_at' => now()],
+    ['name' => 'seller2', 'password' => Hash::make('password'), 'role' => 'seller', 'balance' => 0.00, 'created_at' => now(), 'updated_at' => now()],
+    ['name' => 'customer1', 'password' => Hash::make('password'), 'role' => 'customer', 'balance' => 1000.00, 'created_at' => now(), 'updated_at' => now()],
+    ['name' => 'customer2', 'password' => Hash::make('password'), 'role' => 'customer', 'balance' => 1000.00, 'created_at' => now(), 'updated_at' => now()],
 ]);
 
     }

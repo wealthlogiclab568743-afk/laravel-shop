@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->enum('role', ['seller', 'customer']);
+            $table->decimal('balance', 10, 2)->default(0);
             $table->timestamps();
         });
 
