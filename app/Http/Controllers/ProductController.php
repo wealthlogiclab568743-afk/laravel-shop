@@ -13,8 +13,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::where('seller_id', auth()->id())->get();
-        return view('dashboard.seller', compact('products'));
+        if (auth()->user()->role === 'customer') {
+            return view('dashboard.customer');
+        }  
+            $products = Product::where('seller_id', auth()->id())->get();
+            return view('dashboard.seller', compact('products'));
+        
     }
 
     public function create()

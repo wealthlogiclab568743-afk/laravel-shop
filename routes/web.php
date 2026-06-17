@@ -18,7 +18,14 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 
 //Dashboard routes
-Route::get('/dashboard', [ProductController::class,'index'])->middleware('auth');
+Route::get('/dashboard', function () {
+    if (auth()->user()->role === 'seller') {
+        $products = \App\Models\Product::where('seller_id', auth()->id())->get();
+        return view('dashboard.seller', compact('products'));
+    } else {
+        return view('dashboard.customer');
+    }
+})->middleware('auth');
 
 //Products
 Route::get ('/products/create', [ProductController::class,'create'])->middleware('auth');

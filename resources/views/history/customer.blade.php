@@ -18,7 +18,11 @@
 
     <hr>
 
-    @if ($order->isEmpty())
+    <p>Your balance: ${{ auth()->user()->balance }}</p>
+
+    <hr>
+
+    @if ($orders->isEmpty())
         <p>You have no purchase history yet.</p>
     @else
         <table border="1" cellpadding="8">
@@ -34,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($order as $order)
+                @foreach ($orders as $order)
                 @foreach ($order->items as $item)
                 
                 <tr>
@@ -43,6 +47,7 @@
                         <td>{{ $item->quantity }}</td>
                         <td>${{ $item->price }}</td>
                         <td>${{ $order->total }}</td>
+                        <td>{{ $item->product->seller->name }}</td>
                         <td>{{ $order->created_at->format('Y-m-d H:i') }}</td>
                     </tr>
                 @endforeach    
